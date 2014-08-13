@@ -1,0 +1,194 @@
+\documentclass[mathserif]{beamer}
+
+\RequirePackage[]{graphicx}
+\usepackage[labelformat=empty]{caption}
+\usepackage{color}
+\usetheme{default}
+\usecolortheme{dolphin}
+
+
+\title[]{Random Walks in 2D}
+\author[]{Megan Chan}
+\institute{The University of Texas at Austin} 
+
+\begin{document}
+\frame{\titlepage}
+
+  \begin{frame}
+      \frametitle{Characterizing Random Walks}
+      \framesubtitle{Mean Square Displacement (MSD)}
+      \begin{itemize}
+      \item Consider the 1D example again \cite{drunk}:
+      	\begin{figure}
+		\centering
+		\includegraphics[width=0.7\linewidth]{./randomwalk1d}
+		\label{fig:randomwalk1d}
+		\end{figure}
+	  \end{itemize}
+	  \begin{equation}
+	  MSD(t) = \left<\left[ \vec{r}_i(t)- \vec{r}_i(0) \right]^2 \right>
+	  \end{equation}
+	  \begin{itemize}
+      \item An object's MSD is related to the physical environment in which it moves \cite{ID}
+%      \item MSD can be thought of as displacement over t units of time, squared. Then average the MSD over many such time intervals.
+      \end{itemize}
+  \end{frame}
+  
+  \begin{frame}
+    \frametitle{Creating an approximately 2D random walk model}
+    \framesubtitle{}
+    %Content goes here
+    \begin{itemize}
+    \item Created flow cell with depth of 1 micrometer
+    \item 1/2 micrometer beads diffuse freely in water inside the flow cell
+    \end{itemize}
+    \begin{figure}
+		\centering
+		\includegraphics[width=0.7\linewidth]{./my_cross_section}
+		\caption{Flow cell}
+		\label{fig:my_cross_section}
+	\end{figure}
+  \end{frame}
+  
+  \begin{frame}
+       \frametitle{Do the beads move randomly?}
+       \framesubtitle{Quantifying randomness and what randomness can tell us}
+       %More content goes here
+       \begin{itemize}
+%       \item The boundary layer is the thin region next to a wall where viscous forces are significant
+%       \item The slope of a log-log plot of MSD vs Time will tell us if the motion is Brownian or ballistic and the intercept tells us the diffusion constant, D:
+	   \item Comparing random versus ballistic motion:
+       	  \begin{itemize}
+       	  \item Random: $log\left<MSD\right> = log(4D) + {\color{magenta}1}\times log(t)$
+       	  \item Ballistic: $log\left<MSD\right> = 2log(v) + {\color{magenta}2}\times log(t)$
+       	  \end{itemize}
+       \end{itemize}
+       \vspace{1mm}
+       \begin{itemize}
+       \item Viscosity $ = \frac{k_B T}{6\pi D r}$
+       \end{itemize}
+     \end{frame}
+  
+ \begin{frame}
+    \frametitle{Data Collection}
+    \framesubtitle{}
+    %Content goes here
+    \begin{itemize}
+    \item Image sequences were recorded using DIC microscopy
+    \item The x and y position for at least five bead trajectories were tracked and recorded into separate text files
+	\end{itemize}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.5\linewidth]{./Display_tracks}
+		\caption{Tracking individual bead trajectories}
+		\label{fig:Tracking_target}
+	\end{figure}
+  \end{frame}  
+    
+  \begin{frame}
+      \frametitle{Strategy for processing and analyzing data in Python}
+      \framesubtitle{}
+      \begin{itemize}
+      \item Tools: NumPy and Matplotlib
+      \item Algorithm has 85 lines of code
+      \begin{enumerate}
+      \item Read in raw text file for each bead trajectory (10 lines)
+      \item Clean and extract data (10 lines)
+      \item For each file (20 lines):
+          \begin{itemize}
+          \item Calculate MSD at each time interval for single bead trajectory
+%          \item Extract x,y position over entire trajectory into 1d array
+%          \item Calculate time-average MSDs and append to 2d array (Dimensions=(\# of trajectories)$\times$(\# of frames per trajectory))
+          \end{itemize}
+      \item For each time interval (10 lines):
+      	  \begin{itemize}
+      	  \item Average the MSD over all bead trajectories
+      	  \item Calculate standard deviation (15 lines)
+%      	  \item Calculate ensemble-average MSD by averaging the time-average MSD for each bead trajectory at that time interval; append to 1d array
+%      	  \item Append standard deviation for ensemble-average MSD to another 1d array
+      	  \end{itemize}
+      \item Plot average MSD vs Time with error bars (20 lines)
+      \end{enumerate}
+      \end{itemize}
+      %More content goes here
+  \end{frame}
+    
+  \begin{frame}
+      \frametitle{Figures and Results}
+      \framesubtitle{}
+      %More content goes here
+      
+      \begin{figure}
+		  \centering
+		  \includegraphics[width=1\linewidth]{./labeledPlots}
+		  \vspace{-3mm}
+%		  \caption{MSD vs Time plots for 1/2$\mu m$ beads diffusing in water in flow cells of depth of $1.0 \mu m$, $2.0 \mu m$ and $2.5 \mu m$}
+	  	  \label{fig:0}
+	  \end{figure}
+
+	  \vspace{-6mm}
+	  \begin{itemize}
+	  \item The effective viscosity of water in the flow cell is \emph{greater} than the tabulated viscosity for water (0.001 $Ns/m^2$)
+	  \end{itemize}
+
+      \begin{figure}
+		\centering
+		\includegraphics[width=0.9\linewidth]{"C:/Users/Megan/Documents/Business Analytics/Data Analytics Programming/Project/Results Table"}
+		\label{fig:ResultsTable}
+	  \end{figure}
+  \end{frame}
+  
+  \begin{frame}
+      \frametitle{Things I learned}
+      \framesubtitle{}
+      %More content goes here
+      \begin{itemize}
+      \item 5 things that worked out of the box:
+      	\begin{itemize} 
+      	\item Open and retrieve data from multiple files in the same directory
+      	\item Clean multiple data sets
+      	\item Quickly perform arithmetic operations on a lot of data
+      	\item Transform data to log scale
+      	\item Write results to files for further analysis in statistical software
+      	\end{itemize}
+      	
+      		 
+	\end{itemize}
+    \end{frame}
+    
+    \begin{frame}
+    	\frametitle{Things I still need to learn}
+    	\framesubtitle{}
+    	\begin{itemize}
+      	\item 5 things I wish I knew how to do beforehand:
+	      	\begin{itemize}
+	      	\item Read and process tabular data
+	      	\item Calculate standard deviations using NumPy function
+	      	\item Format colors and labels on plots
+	      	\item Create subplots within the same figure
+	      	\item Calculate slope and intercept of plots
+	      	\end{itemize}
+	      	
+    	\vspace{5mm}
+	      	
+      	\item 5 things that didn't work:
+      		\begin{itemize}
+      		\item Generating plots in separate window
+      		\item Opening data files from multiple directories
+      		\item Averaging MSD across bead trajectories of different lengths
+      		\item Simplifying the user interface
+      		\item Calculating displacement of beads in z-direction
+      		\end{itemize}
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}
+	\frametitle{References}
+	\nocite{Fluids}
+	\nocite{Cbm}
+	\bibliographystyle{unsrt}
+	\bibliography{bib}
+	
+	\end{frame}
+
+\end{document}
